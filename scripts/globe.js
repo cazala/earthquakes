@@ -56,6 +56,7 @@ if(!Detector.webgl){
     init: function() {
       this.ref = new Firebase('https://publicdata-earthquakes.firebaseio.com/by_continent/');
       this.fetchContinents();
+      this.globe.zoom(10);
     },
     /*
      * fetchContinents
@@ -68,7 +69,7 @@ if(!Detector.webgl){
 
       var container = document.getElementById('container');
       var globe = new DAT.Globe(container, {
-        imgDir: '/images/'
+        imgDir: 'images/'
       });
 
       this.globe = globe;

@@ -349,7 +349,7 @@ DAT.Globe = function(container, opts) {
 
   function zoom(delta) {
     distanceTarget -= delta;
-    distanceTarget = distanceTarget > 1000 ? 1000 : distanceTarget;
+    distanceTarget = distanceTarget > 1500 ? 1500 : distanceTarget;
     distanceTarget = distanceTarget < 350 ? 350 : distanceTarget;
   }
 
@@ -410,7 +410,7 @@ DAT.Globe = function(container, opts) {
   this.createPoints = createPoints;
   this.renderer = renderer;
   this.scene = scene;
-  this.zoom = zoom;
+  this.zoom = zoom.bind(this);
 
   return this;
 
