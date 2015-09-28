@@ -1,0 +1,28 @@
+{
+  "name": "earthquakes",
+  "version": "1.0.0",
+  "description": "just an experiment mixing firebase open datasets and webgl globe",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cazala/earthquakes.git"
+  },
+  "keywords": [
+    "earthquakes",
+    "firebase",
+    "webgl",
+    "globe"
+  ],
+  "author": "Juan Cazala <juancazala@gmail.com> (http://juancazala.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cazala/earthquakes/issues"
+  },
+  "homepage": "https://github.com/cazala/earthquakes",
+  "devDependencies": {
+    "http-server": "^0.8.5"
+  }
+}
