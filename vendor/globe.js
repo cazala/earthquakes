@@ -18,7 +18,7 @@ DAT.Globe = function(container, opts) {
   
   var colorFn = opts.colorFn || function(x) {
     var c = new THREE.Color();
-    c.setHSL( ( 0.6 - ( x * 0.5 ) ), 1.0, 0.5 );
+    c.setHSL( 0.4 - x, 1.0, 0.5 );
     return c;
   };
   var imgDir = opts.imgDir || '/globe/';
@@ -149,6 +149,7 @@ DAT.Globe = function(container, opts) {
     container.appendChild(renderer.domElement);
 
     container.addEventListener('mousedown', onMouseDown, false);
+    container.addEventListener('touchstart', onMouseDown, false);
 
     container.addEventListener('mousewheel', onMouseWheel, false);
 
@@ -274,11 +275,13 @@ DAT.Globe = function(container, opts) {
     event.preventDefault();
 
     container.addEventListener('mousemove', onMouseMove, false);
+    container.addEventListener('touchmove', onMouseMove, false);
     container.addEventListener('mouseup', onMouseUp, false);
+    container.addEventListener('touchend', onMouseUp, false);
     container.addEventListener('mouseout', onMouseOut, false);
 
-    mouseOnDown.x = - event.clientX;
-    mouseOnDown.y = event.clientY;
+    mouseOnDown.x = - (event.clientX || event.touches[0].clientX);
+    mouseOnDown.y = event.clientY || event.touches[0].clientY;
 
     targetOnDown.x = target.x;
     targetOnDown.y = target.y;
@@ -287,8 +290,8 @@ DAT.Globe = function(container, opts) {
   }
 
   function onMouseMove(event) {
-    mouse.x = - event.clientX;
-    mouse.y = event.clientY;
+    mouse.x = - (event.clientX || event.touches[0].clientX);
+    mouse.y = event.clientY || event.touches[0].clientY;
 
     var zoomDamp = distance/1000;
 
@@ -301,14 +304,19 @@ DAT.Globe = function(container, opts) {
 
   function onMouseUp(event) {
     container.removeEventListener('mousemove', onMouseMove, false);
+    container.removeEventListener('touchmove', onMouseMove, false);
     container.removeEventListener('mouseup', onMouseUp, false);
+    container.removeEventListener('touchend', onMouseUp, false);
     container.removeEventListener('mouseout', onMouseOut, false);
+
     container.style.cursor = 'auto';
   }
 
   function onMouseOut(event) {
     container.removeEventListener('mousemove', onMouseMove, false);
+    container.removeEventListener('touchmove', onMouseMove, false);
     container.removeEventListener('mouseup', onMouseUp, false);
+    container.removeEventListener('touchend', onMouseUp, false);
     container.removeEventListener('mouseout', onMouseOut, false);
   }
 
@@ -402,6 +410,7 @@ DAT.Globe = function(container, opts) {
   this.createPoints = createPoints;
   this.renderer = renderer;
   this.scene = scene;
+  this.zoom = zoom;
 
   return this;
 
