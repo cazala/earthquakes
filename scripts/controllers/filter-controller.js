@@ -7,5 +7,9 @@ angular.module('earthquakeApp')
   $scope.daysFilter       = filterService.daysFilter;
   $scope.magFilter        = filterService.magFilter;
   $scope.continentFilter  = filterService.continentFilter;
-  $scope.filter           = filterService.filter;
+  $scope.filter           = filter;
+
+  function filter(){
+  	filterService.filter($scope);
+  }
 })
