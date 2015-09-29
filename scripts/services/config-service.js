@@ -36,7 +36,7 @@ angular.module('earthquakeApp')
 
 	// validate quake
 	function validate(quake) {
-		var ms = new Date - 1000 * 60 * 60 * 24 * configService.daysFilter;
+		var ms = new Date - 1000 * 60 * 60 * 24 * daysFilter;
 		return quakesCount < maxFilter && quake.mag > magFilter && quake.time > ms;
 	}
 
