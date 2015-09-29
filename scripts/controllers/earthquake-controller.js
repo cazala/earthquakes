@@ -6,6 +6,8 @@ angular.module('earthquakeApp')
 
   $scope.openFilter = openFilter;
   $scope.changeView = changeView;
+  $scope.showMapButton = configService.viewMode == 'world';
+  $scope.showWorldButton = configService.viewMode == 'map';
 
   // filter
   function openFilter(){

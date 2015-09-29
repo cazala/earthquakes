@@ -25,7 +25,8 @@
 
     <div class="menu" ng-controller="earthquakeCtrl">
       <button class="btn btn-default" ng-click="openFilter()"><i class="fa fa-filter"></i>&nbsp;Filtrar</button>
-      <button class="btn btn-default" ng-click="changeView('map')"><i class="fa fa-map-marker"></i>&nbsp;Mapa</button>
+      <button class="btn btn-default" ng-click="changeView('map')" ng-if='showMapButton'><i class="fa fa-map-marker"></i>&nbsp;Mapa</button>
+      <button class="btn btn-default" ng-click="changeView('world')" ng-if='showWorldButton'><i class="fa fa-globe"></i>&nbsp;Mundo</button>
     </div>
 
     <div ng-if="count > 0" class="count">

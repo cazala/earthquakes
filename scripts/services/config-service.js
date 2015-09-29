@@ -18,6 +18,7 @@ angular.module('earthquakeApp')
 		daysFilter: 		daysFilter,
 		magFilter: 			magFilter,		
 		continentFilter: 	continentFilter,
+		viewMode: 			viewMode,
 		applyConfig: 		applyConfig,
 		validQuake: 		validate,
 		count: 				count
