@@ -1,68 +1,33 @@
-if(!Detector.webgl){
-  Detector.addGetWebGLMessage();
-} else {
+// app module
+angular.module('earthquakeApp', ['ui.bootstrap'])
 
-  /*
-  var container = document.getElementById('container');
-  var globe = new DAT.Globe(container, {
-    imgDir: '/images/'
-  });
+// filters
+.value('maxFilter', getParam('max', "3000"))
+.value('daysFilter', getParam('days', "30"))
+.value('magFilter', getParam('mag', "3"))
+.value('continentFilter', getParam('continent', "all"))
 
-  console.log(globe);
-  var i, tweens = [];
-  
-  var settime = function(globe, t) {
-    return function() {
-      new TWEEN.Tween(globe).to({time: t},500).easing(TWEEN.Easing.Cubic.EaseOut).start();
-    };
-  };
-  
-  var xhr;
-  TWEEN.start();
-  
-  
-  xhr = new XMLHttpRequest();
-  xhr.open('GET', '/data/population909500.json', true);
-  xhr.onreadystatechange = function(e) {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        var data = JSON.parse(xhr.responseText);
-        window.data = data;
-        for (i=0;i<data.length;i++) {
-          console.log(data[i])
-          globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
-        }
-        globe.createPoints();
-        settime(globe,0)();
-        globe.animate();
-        document.body.style.backgroundImage = 'none'; // remove loading
-      }
-    }
-  };
-  xhr.send(null);
-  */
+// earthquakes service
+.factory('earthquakeService', function(maxFilter, daysFilter, magFilter, continentFilter, $rootScope){
+  return {
 
-  var earthquakes = {
     continents: ['europe', 'asia', 'africa', 'north_america', 'south_america', 'antartica', 'oceanic'],
     ref: undefined,
     globe: undefined,
     timeout: undefined,
+    count: 0,
     data: [],
-    /*
-     * init
-     *
-     * initialize the module
-     */
-    init: function() {
-      this.ref = new Firebase('https://publicdata-earthquakes.firebaseio.com/by_continent/');
-      this.fetchContinents();
-      this.globe.zoom(10);
+
+    blastoff: function() {
+      if(!Detector.webgl){
+        Detector.addGetWebGLMessage();
+      } else {
+        angular.element("body").css("display", "block");
+        this.ref = new Firebase('https://publicdata-earthquakes.firebaseio.com/by_continent/');
+        this.fetchContinents();
+      }
     },
-    /*
-     * fetchContinents
-     *
-     * initialize the Google Maps API and listen for new earthquakes to be added
-     */
+
     fetchContinents: function() {
       var self = this;
       var magRef;
@@ -76,31 +41,32 @@ if(!Detector.webgl){
 
       // SET LISTENERS FOR NEW EARTHQUAKE EVENTS ON ALL CONTINENTS
       _.forEach(this.continents, function(continent) {
-        for (var mag = 0; mag < 10; mag++) {
+        if (continentFilter == "all" || continent == continentFilter)
+        for (var mag = magFilter; mag < 10; mag++) {
           magRef = self.ref.child(continent).child(mag.toString());
-          magRef.orderByKey().limitToLast(100).on('child_added', self.addQuake, self);
+          magRef.orderByKey().limitToFirst(500).on('child_added', self.addQuake, self);
         }
       });
     },
-    /*
-     * renderQuakeMarkers
-     *
-     * plot earthquake event on the map and enable clicking to reveal more earthquake info
-     */
+
     addQuake: function(snapshot) {
       var self = this;
       var quake = snapshot.val();
-      
-      //console.log(quake);
-      //globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
-      var mag = quake.mag;
-      if (mag > 1){
-        mag *= mag * mag;
-      }
-      mag /= 1000;
-      self.data = self.data.concat([quake.location.lat, quake.location.lng, mag]);
+      var ms = new Date - 1000 * 60 * 60 * 24 * daysFilter;
 
-      this.renderGlobe();
+      if (self.count < maxFilter && quake.mag > magFilter && quake.time > ms)
+      {
+        self.count++;
+        $rootScope.count = self.count;
+        var mag = quake.mag;
+        if (mag > 1){
+          mag *= mag * mag;
+        }
+        mag /= 1000;
+        self.data = self.data.concat([quake.location.lat, quake.location.lng, mag]);
+
+        this.renderGlobe();
+      }
     },
 
     renderGlobe: function(){
@@ -113,17 +79,60 @@ if(!Detector.webgl){
         self.globe.createPoints();
         self.globe.animate();
 
-        console.log(self.data.length);
+        $rootScope.connected = true;
+        $rootScope.$digest();
+
+        console.log(self.data.length / 3);
       }, 500);
     }
   };
+})
 
-  $(document).ready(function(){
-    earthquakes.init();
-    // Set a timeout...
-    setTimeout(function(){
-      // Hide the address bar!
-      window.scrollTo(0, 1);
-    }, 0);
+// earthquake controller
+.controller('earthquakeCtrl', function(earthquakeService, $scope, $modal){
+
+  // filters
+  $scope.openFilter = openFilter;
+
+  function openFilter(){
+    $modal.open({
+      templateUrl: "/views/filter.html",
+      controller: 'filterCtrl',
+    })
+  }
+
+  // start app
+  earthquakeService.blastoff();
+})
+
+.controller('filterCtrl', function(maxFilter, daysFilter, magFilter, continentFilter, $scope, $window){
+  $scope.maxFilter = maxFilter;
+  $scope.daysFilter = daysFilter;
+  $scope.magFilter = magFilter;
+  $scope.continentFilter = continentFilter;
+
+  $scope.filter = filter;
+
+  function filter(){
+    $window.location.href = '/?' +
+      'max=' + $scope.maxFilter + "&" +
+      'days=' + $scope.daysFilter + "&" +
+      'mag=' + $scope.magFilter + "&" +
+      'continent=' + $scope.continentFilter;
+  }
+})
+
+// helper
+;function getParam(find, defaults){
+  var query = location.search.replace('?', '').split('&');
+  var ret = defaults;
+  query.forEach(function(param){
+    var split = param.split('=');
+    var name = split[0];
+    var value = split[1];
+    if (name == find) {
+      ret = value;
+    }
   });
+  return ret;
 }
