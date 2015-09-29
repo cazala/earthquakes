@@ -1,11 +1,5 @@
 // app module
-angular.module('earthquakeApp', ['ui.bootstrap'])
-
-// filters
-.value('maxFilter', getParam('max', "3000"))
-.value('daysFilter', getParam('days', "30"))
-.value('magFilter', getParam('mag', "3"))
-.value('continentFilter', getParam('continent', "all"))
+angular.module('earthquakeApp')
 
 // earthquakes service
 .factory('earthquakeService', function(maxFilter, daysFilter, magFilter, continentFilter, $rootScope){
@@ -87,52 +81,3 @@ angular.module('earthquakeApp', ['ui.bootstrap'])
     }
   };
 })
-
-// earthquake controller
-.controller('earthquakeCtrl', function(earthquakeService, $scope, $modal){
-
-  // filters
-  $scope.openFilter = openFilter;
-
-  function openFilter(){
-    $modal.open({
-      templateUrl: "views/filter.html",
-      controller: 'filterCtrl',
-    })
-  }
-
-  // start app
-  earthquakeService.blastoff();
-})
-
-.controller('filterCtrl', function(maxFilter, daysFilter, magFilter, continentFilter, $scope, $window){
-  $scope.maxFilter = maxFilter;
-  $scope.daysFilter = daysFilter;
-  $scope.magFilter = magFilter;
-  $scope.continentFilter = continentFilter;
-
-  $scope.filter = filter;
-
-  function filter(){
-    $window.location.href = '/?' +
-      'max=' + $scope.maxFilter + "&" +
-      'days=' + $scope.daysFilter + "&" +
-      'mag=' + $scope.magFilter + "&" +
-      'continent=' + $scope.continentFilter;
-  }
-})
-
-// helper
-;function getParam(find, defaults){
-  var query = location.search.replace('?', '').split('&');
-  var ret = defaults;
-  query.forEach(function(param){
-    var split = param.split('=');
-    var name = split[0];
-    var value = split[1];
-    if (name == find) {
-      ret = value;
-    }
-  });
-  return ret;
-}
