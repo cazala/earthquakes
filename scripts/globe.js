@@ -96,7 +96,7 @@ angular.module('earthquakeApp', ['ui.bootstrap'])
 
   function openFilter(){
     $modal.open({
-      templateUrl: "/views/filter.html",
+      templateUrl: "views/filter.html",
       controller: 'filterCtrl',
     })
   }
