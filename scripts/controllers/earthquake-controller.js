@@ -12,7 +12,7 @@ angular.module('earthquakeApp')
   // filter
   function openFilter(){
     $modal.open({
-      templateUrl: "views/filter.html",
+      templateUrl: "views/filter-view.html",
       controller: 'filterCtrl',
     })
   }
