@@ -2,14 +2,14 @@
 angular.module('earthquakeApp')
 
 // filter controller
-.controller('filterCtrl', function(filterService, $scope){
-  $scope.maxFilter        = filterService.maxFilter;
-  $scope.daysFilter       = filterService.daysFilter;
-  $scope.magFilter        = filterService.magFilter;
-  $scope.continentFilter  = filterService.continentFilter;
+.controller('filterCtrl', function(configService, $scope){
+  $scope.maxFilter        = configService.maxFilter;
+  $scope.daysFilter       = configService.daysFilter;
+  $scope.magFilter        = configService.magFilter;
+  $scope.continentFilter  = configService.continentFilter;
   $scope.filter           = filter;
 
   function filter(){
-  	filterService.filter($scope);
+  	configService.applyConfig($scope);
   }
 })
