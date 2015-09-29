@@ -2,7 +2,7 @@
 angular.module('earthquakeApp')
 
 // earthquakes service
-.factory('earthquakeService', function(maxFilter, daysFilter, magFilter, continentFilter, $rootScope){
+.factory('earthquakeService', function(filterService, $rootScope){
   return {
 
     continents: ['europe', 'asia', 'africa', 'north_america', 'south_america', 'antartica', 'oceanic'],
@@ -35,8 +35,8 @@ angular.module('earthquakeApp')
 
       // SET LISTENERS FOR NEW EARTHQUAKE EVENTS ON ALL CONTINENTS
       _.forEach(this.continents, function(continent) {
-        if (continentFilter == "all" || continent == continentFilter)
-        for (var mag = magFilter; mag < 10; mag++) {
+        if (filterService.continentFilter == "all" || continent == filterService.continentFilter)
+        for (var mag = filterService.magFilter; mag < 10; mag++) {
           magRef = self.ref.child(continent).child(mag.toString());
           magRef.orderByKey().limitToFirst(500).on('child_added', self.addQuake, self);
         }
@@ -46,9 +46,9 @@ angular.module('earthquakeApp')
     addQuake: function(snapshot) {
       var self = this;
       var quake = snapshot.val();
-      var ms = new Date - 1000 * 60 * 60 * 24 * daysFilter;
+      var ms = new Date - 1000 * 60 * 60 * 24 * filterService.daysFilter;
 
-      if (self.count < maxFilter && quake.mag > magFilter && quake.time > ms)
+      if (self.count < filterService.maxFilter && quake.mag > filterService.magFilter && quake.time > ms)
       {
         self.count++;
         $rootScope.count = self.count;
