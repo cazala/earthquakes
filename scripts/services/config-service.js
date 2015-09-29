@@ -31,7 +31,7 @@ angular.module('earthquakeApp')
 	      'days=' + (opts.daysFilter || daysFilter) + "&" +
 	      'mag=' + (opts.magFilter || magFilter) + "&" +
 	      'continent=' + (opts.continentFilter || continentFilter) + "&" +
-	      'view=' + (opts.viewMode || continentFilter)
+	      'view=' + (opts.viewMode || viewMode)
 	}
 
 	// validate quake
