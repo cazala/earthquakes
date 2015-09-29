@@ -5,18 +5,18 @@ angular.module('earthquakeApp')
 .factory('filterService', function($window){
 
 	// read values from query
-	var maxFilter 				= getParam('max', "3000"),
-			daysFilter				= getParam('days', "30"),
-			magFilter					= getParam('mag', "3"),
-			continentFilter		= getParam('continent', "all")
+	var maxFilter 			= getParam('max', "3000"),
+		daysFilter			= getParam('days', "30"),
+		magFilter			= getParam('mag', "3"),
+		continentFilter		= getParam('continent', "all")
 
 	// API
 	return {
-		maxFilter: 				maxFilter, 	
-		daysFilter: 			daysFilter,
-		magFilter: 				magFilter,		
+		maxFilter: 			maxFilter, 	
+		daysFilter: 		daysFilter,
+		magFilter: 			magFilter,		
 		continentFilter: 	continentFilter,
-		filter: 					filter
+		filter: 			filter
 	}
 
 	// call filter url
