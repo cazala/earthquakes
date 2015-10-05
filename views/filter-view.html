@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <h3 class="modal-title">Filtrar</h3>
+</div>
+<div class="modal-body">
+    <form>
+
+	  <div class="form-group row">
+	  	<label class="col-md-4">
+	  		<span>Continente</span>
+	  	</label>
+	  	<div class="col-md-8">
+		    <select class="form-control" ng-model="continentFilter">
+			  <option value="all">Todos</option>
+			  <option value="europe">Europa</option>
+			  <option value="asia">Asia</option>
+			  <option value="africa">Africa</option>
+			  <option value="north_america">América del Norte</option>
+			  <option value="south_america">América del Sur</option>
+			  <option value="oceanic">Oceanía</option>
+			</select>
+		</div>
+	  </div>
+
+	  <div class="form-group row">
+	  	<label class="col-md-4">
+	  		<span>Fecha</span>
+	  	</label>
+	  	<div class="col-md-8">
+		    <select class="form-control" ng-model="daysFilter">
+			  <option value="7">Ultima Semana</option>
+			  <option value="30">Ultimo Mes</option>
+			  <option value="180">Ultimo Medio Año</option>
+			  <option value="365">Ultimo Año</option>
+			</select>
+		</div>
+	  </div>
+	  
+	  <div class="form-group row">
+	  	<label class="col-md-4">
+	  		<span>Magnitud Minima</span>
+	  	</label>
+	  	<div class="col-md-8">
+		    <select class="form-control" ng-model="magFilter">
+			  <option value="10">10</option>
+			  <option value="9">9</option>
+			  <option value="8">8</option>
+			  <option value="7">7</option>
+			  <option value="6">6</option>
+			  <option value="5">5</option>
+			  <option value="4">4</option>
+			  <option value="3">3</option>
+			  <option value="2">2</option>
+			  <option value="1">1</option>
+			</select>
+		</div>
+	  </div>
+
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary pull-right" data-loading-text="Deleting..." ng-click="filter()">Filtrar</button>
+	<button class="btn btn-default pull-left" ng-click="$dismiss()">Cancelar</button>
+</div>

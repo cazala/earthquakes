@@ -4,13 +4,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Earthquakes - Firebase + WebGL Globe</title>
     <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <link rel="stylesheet" href="styles/bootstrap.css"/>
+    <link rel="stylesheet" href="styles/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="styles/font-awesome.css"/>
+    <link rel="stylesheet" href="styles/bootswatch.css">
     <link rel="stylesheet" href="styles/main.css"/>
   </head>
-  <body>
+  <body ng-app="earthquakeApp" style="display:none">
+
+    <div class="logo hidden-xs hidden-sm">
+      <img src="images/ub.png"></img>
+    </div>
+
+    <div class="status">
+      <span>
+        <i ng-class="{ 'connected' : connected, 'disconnected' : !connected }" class="fa fa-circle fa-spin"
+        ></i>&nbsp;&nbsp;{{ connected? 'Conectado' : 'Conectando' }} a <a target="_blank" href="http://usgs.gov">USGS.gov{{ connected? '' : '...' }}</a>
+      </span>
+    </div>
+
+    <div class="menu" ng-controller="appCtrl">
+      <button class="btn btn-default" ng-click="openFilter()"><i class="fa fa-filter"></i>&nbsp;Filtrar</button>
+      <button class="btn btn-default" ng-click="changeView('map')" ng-if='showMapButton'><i class="fa fa-map-marker"></i>&nbsp;Mapa</button>
+      <button class="btn btn-default" ng-click="changeView('globe')" ng-if='showWorldButton'><i class="fa fa-globe"></i>&nbsp;Mundo</button>
+    </div>
+
+    <div ng-if="count > 0" class="count hidden-xs hidden-sm">
+      <span style="color:gray">{{count}} resultados</span>
+    </div>
 
     <div id="container"></div>
-
+    
     <!-- vendor libs -->
+    <script type="text/javascript" src="vendor/google.maps.js"></script>
+    <script type="text/javascript" src="vendor/hammer.js"></script>
     <script type="text/javascript" src="vendor/Detector.js"></script>
     <script type="text/javascript" src="vendor/three.min.js"></script>
     <script type="text/javascript" src="vendor/Tween.js"></script>
@@ -19,9 +47,16 @@
     <script type="text/javascript" src="vendor/loadash.js"></script>
     <script type="text/javascript" src="vendor/rsvp.js"></script>
     <script type="text/javascript" src="vendor/firebase.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap.js"></script>
+    <script type="text/javascript" src="vendor/angular.js"></script>
+    <script type="text/javascript" src="vendor/ui-bootstrap.js"></script>
 
     <!-- experiment code -->
-    <script type="text/javascript" src="scripts/globe.js"></script>
+    <script type="text/javascript" src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/services/earthquake-service.js"></script>
+    <script type="text/javascript" src="scripts/services/config-service.js"></script>
+    <script type="text/javascript" src="scripts/controllers/app-controller.js"></script>
+    <script type="text/javascript" src="scripts/controllers/filter-controller.js"></script>
 
   </body>
 
