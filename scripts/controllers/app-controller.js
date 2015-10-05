@@ -2,11 +2,11 @@
 angular.module('earthquakeApp')
 
 // earthquake controller
-.controller('earthquakeCtrl', function(earthquakeService, configService, $scope, $modal){
+.controller('appCtrl', function(earthquakeService, configService, $scope, $modal){
 
   $scope.openFilter = openFilter;
   $scope.changeView = changeView;
-  $scope.showMapButton = configService.viewMode == 'world';
+  $scope.showMapButton = configService.viewMode == 'globe';
   $scope.showWorldButton = configService.viewMode == 'map';
 
   // filter

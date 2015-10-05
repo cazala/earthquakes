@@ -23,10 +23,10 @@
       </span>
     </div>
 
-    <div class="menu" ng-controller="earthquakeCtrl">
+    <div class="menu" ng-controller="appCtrl">
       <button class="btn btn-default" ng-click="openFilter()"><i class="fa fa-filter"></i>&nbsp;Filtrar</button>
       <button class="btn btn-default" ng-click="changeView('map')" ng-if='showMapButton'><i class="fa fa-map-marker"></i>&nbsp;Mapa</button>
-      <button class="btn btn-default" ng-click="changeView('world')" ng-if='showWorldButton'><i class="fa fa-globe"></i>&nbsp;Mundo</button>
+      <button class="btn btn-default" ng-click="changeView('globe')" ng-if='showWorldButton'><i class="fa fa-globe"></i>&nbsp;Mundo</button>
     </div>
 
     <div ng-if="count > 0" class="count">
@@ -36,6 +36,7 @@
     <div id="container"></div>
     
     <!-- vendor libs -->
+    <script type="text/javascript" src="vendor/google.maps.js"></script>
     <script type="text/javascript" src="vendor/hammer.js"></script>
     <script type="text/javascript" src="vendor/Detector.js"></script>
     <script type="text/javascript" src="vendor/three.min.js"></script>
@@ -53,7 +54,7 @@
     <script type="text/javascript" src="scripts/app.js"></script>
     <script type="text/javascript" src="scripts/services/earthquake-service.js"></script>
     <script type="text/javascript" src="scripts/services/config-service.js"></script>
-    <script type="text/javascript" src="scripts/controllers/earthquake-controller.js"></script>
+    <script type="text/javascript" src="scripts/controllers/app-controller.js"></script>
     <script type="text/javascript" src="scripts/controllers/filter-controller.js"></script>
 
   </body>

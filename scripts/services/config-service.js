@@ -9,7 +9,7 @@ angular.module('earthquakeApp')
 		daysFilter			= query('days', "30"),
 		magFilter			= query('mag', "3"),
 		continentFilter		= query('continent', "all"),
-		viewMode 			= query('view', "world"),
+		viewMode 			= query('view', "globe"),
 		quakesCount			= 0;
 
 	// API
