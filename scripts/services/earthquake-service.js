@@ -8,7 +8,7 @@ angular.module('earthquakeApp')
     continents: ['europe', 'asia', 'africa', 'north_america', 'south_america', 'antartica', 'oceanic'],
     infoWindowContent: _.template('<b>Magnitud:</b> <%= quake.mag %> <br />' +
                                     '<b>Lugar:</b> <%= quake.place %> <br />' +
-                                    '<b>Fecha:</b> <%= quake.dateAsString %>'),
+                                    '<b>Fecha:</b> <%= quake.dateAsString %> '),
     ref: undefined,
     map: undefined,
     globe: undefined,
@@ -65,7 +65,7 @@ angular.module('earthquakeApp')
           this.renderGlobe();
         } else {
           var quakeDate = new Date(quake.time);
-          quake.dateAsString = quakeDate.getDay() + " de " + [
+          quake.dateAsString = quakeDate.getDate() + " de " + [
             "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
           ][quakeDate.getMonth()] + ", " + quakeDate.getFullYear();
 
